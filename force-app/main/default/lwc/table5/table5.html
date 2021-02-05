@@ -1,0 +1,50 @@
+<template>
+    <c-table-header5 onclickedit = {handleHeaderEditClick} onopencreationmodal = {onOpenCreationModal}></c-table-header5>
+    <template if:true={opportunities}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">                 
+            <thead>
+                <tr>
+                    <th title = 'Numeration'> </th>
+                        <th title = 'Selection checkboxes'> 
+                            <lightning-input onchange = {handleHeaderCheckboxSwitch} type="checkbox"></lightning-input>
+                        </th>
+                        <th title = 'Opportunity Name'>Opportunity Name</th>                        <th title = 'Account Name'>Account Name</th>
+                        <th title = 'Stage Name'>Stage Name</th>                        <th title = 'Close Date'>Close Date</th>
+                        <th title = 'Row Actions'></th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={opportunities} for:item='opportunity'>
+                <c-table-content5 selected-cell = {selectedCell} footer-state = {showFooter}  
+                                      selected-rows={selectedRows} oncheckboxswitch={handleCheckboxSwitch} 
+                                      onedit={handleEditRow} onrowaction = {handleRowActions}
+                                      header-editclicked = {headerEditButtonClicked} onselectcell={handleSelectCell} opportunity={opportunity} 
+                                      highest-selected-row={highestSelectedRow} onmultiedit = {handleMultiEdit}
+                                      edited-rows={editedRows} oneditmodeenable = {handleEditModeEnable}
+                                      enable-editmode = {cellThatEnableEdit}
+                                      refresh-row = {refreshRow} row-index = {rowIndexByRecordId}
+                                      key={opportunity.Id} style='display:table-row;'></c-table-content5>                                                    
+                </template>
+</tbody>
+<tfoot>
+    <template if:true={showFooter}>
+                    <c-table-footer5 class = 'table-footer' onclose = {handleFooterClose} onsave = {handleFooterSave} onrowedited = {rowEditHandler}></c-table-footer5>
+                </template>
+</tfoot>
+</table>
+</template>
+<template if:false={opportunities}>
+        <div>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+    </template>
+<template if:true={openCreationModal}>
+        <c-create-opportunity-modal-box onedit = {switchEditModalState} onsave = {saveNewOpportunityHandler} onclose = {switchCreationModalState}></c-create-opportunity-modal-box>
+    </template>
+<template if:true={openEditModal}>
+        <c-edit-opportunity-modal-box  record-id = {rowActionSelectedOpportunity.Id} onclose = {switchEditModalState} onsuccess = {handleSuccessEdit}></c-edit-opportunity-modal-box>
+    </template>
+<template if:true={openChangeOwnerModal}>
+        <c-change-owner-modal-box opportunity = {rowActionSelectedOpportunity} onclose = {handleChangeOwnerModalClose}></c-change-owner-modal-box>
+    </template>
+</template>

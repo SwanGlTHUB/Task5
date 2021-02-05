@@ -1,0 +1,64 @@
+.cell-activated{
+    outline: 1px solid black;
+}
+
+.slds-button_icon{
+    float: right;
+    visibility: hidden;
+}
+
+.opportunity-name-edit{
+    transform: translateY(-30%);
+    position: absolute; 
+    top: 0; 
+    left: 5px;
+    width: 90%;
+}
+
+.account-name-edit{
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 90%; 
+}
+
+.account-name-input{
+    width:80%;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.stage-name-edit{
+    position:absolute; 
+    width:80%; 
+    left: 0; 
+    top: 0;
+}
+
+.checkbox-wrapper{
+    background-color: #F3F2F2;
+}
+
+.checkbox-wrapper-date{
+    background-color: #F3F2F2;
+    left: 0;
+    transform: translateX(-3%);
+    width: 84.5%;
+}
+
+.checkbox-wrapper-opportunity{
+    width:80%;
+}
+
+.date-edit-wrapper{
+    z-index: 1000; 
+    transform:translateY(-40%);
+    position: absolute; 
+    top:0; 
+    left:0;
+    width: 80%;
+    padding-left: 0;
+}
+

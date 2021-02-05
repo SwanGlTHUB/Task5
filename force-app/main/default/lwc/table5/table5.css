@@ -1,0 +1,17 @@
+.cell-activated{
+    outline: 1px solid black;
+}
+
+.slds-button_icon{
+    float: right;
+    visibility: hidden;
+}
+
+.table-footer{
+    position:fixed;
+    transform:translateY(-100%);
+    z-index: 2000;
+    top: 100%;
+    left: 20px;
+    right:20px;
+}

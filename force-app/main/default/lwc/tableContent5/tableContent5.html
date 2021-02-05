@@ -1,0 +1,81 @@
+<template>
+    <td>{rowIndexToDisplay}</td>
+    <td ><lightning-input checked = {rowSelected} onchange={handleRowSelect} type="checkbox"></lightning-input></td>
+    <td id='opportunityName-1' onmouseenter = {onMouseOverHandler} onmouseleave = {onMouseOutHandler} onclick = {handleSelectCell} class='slds-cell-edit'>
+        <a onclick = {handleRedirectToOpportunityPage}>{opportunityNameToDisplay}</a>
+        <lightning-button-icon onclick={handleBtn1Click} id = 'btn1' style = 'float: right; visibility: hidden;' icon-name="utility:edit"  alternative-text="Settings" title="Settings"></lightning-button-icon>
+        <template if:true={opportunityEditMode}>
+            <div class='opportunity-name-edit'>
+                <lightning-input  class = 'account-name-input inline-block' onchange={handleOpportunityNameInInputChange}></lightning-input>
+                <lightning-button variant="brand" label="Apply" title="Primary action" onclick={handleOpportunityNameChange} class="slds-m-left_x-small"></lightning-button>
+                <template if:true = {multipleRowEdit}>
+                    <div class = 'checkbox-wrapper checkbox-wrapper-opportunity'>
+                        <lightning-input onchange = {handleInputCheckbox} name = 'checkbox-1' label = 'Edit all selected rows' style = 'transform:translateX(2%);' type="checkbox"></lightning-input>         
+                    </div>
+                </template>
+            </div>
+        </template>
+    </td>
+    <td id='accountName-2' onmouseenter = {onMouseOverHandler} onmouseleave = {onMouseOutHandler} onclick = {handleSelectCell} class='slds-cell-edit'>
+        <a onclick = {handleRedirectToAccountPage}>{accountNameToDisplay}</a>
+        <lightning-button-icon onclick={handleBtn2Click} id='btn2' style = 'float: right; visibility: hidden;' icon-name="utility:edit"  alternative-text="Settings" title="Settings"></lightning-button-icon>
+        <template if:true={accountNameEditMode}>
+            <div class = 'account-name-edit'>
+                <c-custom-lookup onrecordselection={handleAccountNameChange} lookup-label="Account" object-api-name="account" icon-name="standard:account"></c-custom-lookup>
+                <template if:true = {multipleRowEdit}>
+                    <div class = 'checkbox-wrapper'>
+                        <lightning-input onchange = {handleInputCheckbox} name = 'checkbox-2' label = 'Edit all selected rows' style = 'transform:translateX(2%);' type="checkbox"></lightning-input>         
+                    </div>
+                </template> 
+            </div>
+        </template>
+    </td>
+    <td id='stageName-3' onmouseenter = {onMouseOverHandler} onmouseleave = {onMouseOutHandler} onclick = {handleSelectCell} class='slds-cell-edit'>
+       <div class='inline-block'>{stageNameToDisplay}</div>
+       <lightning-button-icon onclick={handleBtn3Click} id='btn3' style = 'float: right; visibility: hidden;' icon-name="utility:edit"  alternative-text="Settings" title="Settings"></lightning-button-icon>
+       <template if:true={stageEditMode}>
+            <div class='stage-name-edit'>
+                <select onchange={handleStageNameChange} class="slds-select" id="stageName-03">
+                    <option value=''>--None--</option>
+                    <option value='Prospecting'>Prospecting</option>
+                    <option value='Qualification'>Qualification</option>
+                    <option value='Needs Analysis'>Needs Analysis</option>
+                    <option value='Value Proposition'>Value Proposition</option>
+                    <option value='Id. Decision Makers'>Id. Decision Makers</option>
+                    <option value='Perception analysis'>Perception analysis</option>
+                    <option value='Proposal/Price Quote'>Proposal/Price Quote</option>
+                    <option value='Negotioation/Review'>Negotioation/Review</option>
+                    <option value='Closed Won'>Closed Won</option>
+                    <option value='Closed Lost'>Closed Lost</option>
+                </select>
+                <template if:true = {multipleRowEdit}>
+                    <div class = 'checkbox-wrapper'>
+                        <lightning-input onchange = {handleInputCheckbox} name = 'checkbox-3' label = 'Edit all selected rows' style = 'transform:translateX(2%);' type="checkbox"></lightning-input>         
+                    </div>
+                </template>
+            </div>    
+       </template>
+    </td>
+    <td id='closeDate-4' onmouseenter = {onMouseOverHandler} onmouseleave = {onMouseOutHandler} onclick = {handleSelectCell} class='slds-cell-edit'>
+        <div class='inline-block'>{closeDateToDisplay}</div>  
+        <lightning-button-icon onclick={handleBtn4Click} id='btn4' style = 'display:inline-block; float: right; visibility: hidden;' icon-name="utility:edit"  alternative-text="Settings" title="Settings"></lightning-button-icon>
+        <template if:true={dateEditMode}>
+            <div class='date-edit-wrapper'>
+                <lightning-input onchange = {handleClosedDateChange} type = 'date' id = 'closeDate-04'></lightning-input>
+            </div>  
+            <template if:true = {multipleRowEdit}>
+                <div class = 'checkbox-wrapper-date'>
+                    <lightning-input onchange = {handleInputCheckbox} name = 'checkbox-4' label = 'Edit all selected rows' style = 'transform:translateX(2%);' type="checkbox"></lightning-input>         
+                </div>
+            </template>
+        </template> 
+    </td>
+    <td >
+        <lightning-button-menu onselect = {handleRowAction} alternative-text="Show menu" variant="border-filled">
+            <lightning-menu-item label="Edit" value="edit"></lightning-menu-item>
+            <lightning-menu-item label="Delete" value="delete"></lightning-menu-item>
+            <lightning-menu-item label="Change Owner" value="changeOwner"></lightning-menu-item>
+        </lightning-button-menu>
+    </td>
+
+</template>
