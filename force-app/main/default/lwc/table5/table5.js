@@ -56,7 +56,6 @@ export default class Table5 extends NavigationMixin(LightningElement) {
                     let selectedCellIndex = this.columnNameToColumnIndex(this.selectedCell.column)
                     if((this.selectedCell.recordId != this.cellThatEnableEdit.recordId)
                     || (selectedCellIndex != this.cellThatEnableEdit.columnIndex)){
-                        console.log('kek')
                         this.disableAllCellsEditMode()
                         this.windowTimeoutId = undefined
                     }
@@ -272,7 +271,6 @@ export default class Table5 extends NavigationMixin(LightningElement) {
         }
         this.headerEditButtonClicked = true
         setTimeout(() => {
-            console.log('mda')
             clearTimeout(this.windowTimeoutId)
             this.headerEditButtonClicked = false
         }, 10);
@@ -294,15 +292,33 @@ export default class Table5 extends NavigationMixin(LightningElement) {
         }else{
             this.selectedRows = this.selectedRows.filter((elem) => elem != recordId)
         }
+        let checkboxDOM = this.template.querySelector('input')
+        if(this.selectedRows.length){
+            if(this.selectedRows.length == this.opportunities.length){
+                checkboxDOM.checked = true
+                checkboxDOM.indeterminate = false
+            }   
+            if(this.selectedRows.length != this.opportunities.length){
+                checkboxDOM.checked = false
+                checkboxDOM.indeterminate = true
+            }
+        }else{
+            checkboxDOM.checked = false
+            checkboxDOM.indeterminate = false
+        }
         this.updateHighestSelectedRow()
-    }
+    }   
 
     handleHeaderCheckboxSwitch(event){
-        let checkboxChecked = event.target.checked
-        if(checkboxChecked){
-            this.selectedRows = this.opportunities.map((item) => item.Id)
-        }else{
+        let checkboxDOM = this.template.querySelector('input')
+        if(this.selectedRows.length){
             this.selectedRows = []
+            checkboxDOM.indeterminate = false
+            checkboxDOM.checked = false
+        }
+        else{
+            this.selectedRows = this.opportunities.map((item) => item.Id)
+            checkboxDOM.checked = true
         }
         this.updateHighestSelectedRow()
     }

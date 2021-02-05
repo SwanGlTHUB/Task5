@@ -1,6 +1,19 @@
 import { LightningElement, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 
+const stageNames = {
+    '--None--' : 0,
+    'Prospecting' : 1,
+    'Qualification' : 2,
+    'Needs Analysis' : 3,
+    'Value Proposition' : 4,
+    'Id. Decision Makers' : 5,
+    'Perception analysis' : 6,
+    'Proposal/Price Quote' : 7,
+    'Negotiation/Review' : 8,
+    'Closed Won' : 9,
+    'Closed Lost' : 10
+}
 
 export default class TableContent extends NavigationMixin(LightningElement) {
     @api opportunity
@@ -21,6 +34,7 @@ export default class TableContent extends NavigationMixin(LightningElement) {
     @track multipleRowEdit = false
     @track applyMultipleRowEdit = false
     @track opportunityNameInInput = undefined
+    @track stageNames = stageNames
 
     @api 
     get rowIndex(){
@@ -108,12 +122,19 @@ export default class TableContent extends NavigationMixin(LightningElement) {
     }
 
     set headerEditclicked(value){
-        if(!this.opportunity || !value || !this.selectedCellInfo){
+        if(!this.opportunity || !value){
             return
         }
         if(value == true){
             if(this.opportunity.Id == this.highestSelectedRow){
-                this.activateCellEditMode(this.selectedCellInfo.column)
+                if(this.selectedCellInfo.recordId == -1){
+                    setTimeout(() => {
+                        this.activateCellEditMode('opportunityName')
+                    }, 30)
+                }
+                else{
+                    this.activateCellEditMode(this.selectedCellInfo.column)
+                }
                 this.multipleRowEdit = true
                 this.applyMultipleRowEdit = false
             }
@@ -202,7 +223,7 @@ export default class TableContent extends NavigationMixin(LightningElement) {
     activateCellEditMode(columnName){
         if(columnName == 'opportunityName'){
             this.opportunityEditMode = true
-            setTimeout(() => {    
+            setTimeout(() => {   
                 this.template.querySelectorAll('lightning-input')[1].focus()  
             }, 10);
         }
@@ -352,11 +373,9 @@ export default class TableContent extends NavigationMixin(LightningElement) {
         this.opportunityNameInInput = ''
         setTimeout(() => {
             if(this.opportunityEditMode){
-                this.template.querySelectorAll('lightning-input')[1].focus()
+                inputElement.focus()
             }    
         }, 10);
-            
-        
         this.dispatchCellEditModeEnable(1)
     }
 
@@ -371,6 +390,10 @@ export default class TableContent extends NavigationMixin(LightningElement) {
         this.multipleRowEdit = false
         this.applyMultipleRowEdit = false
         this.stageEditMode = !this.stageEditMode
+        setTimeout(() => {
+            let selectDOM = this.template.querySelector('select') 
+            selectDOM.childNodes[this.stageNames[this.stageNameToDisplay]].setAttribute('selected')
+        }, 10)
         this.dispatchCellEditModeEnable(3)
     }
 
@@ -378,6 +401,10 @@ export default class TableContent extends NavigationMixin(LightningElement) {
         this.multipleRowEdit = false
         this.applyMultipleRowEdit = false
         this.dateEditMode = !this.dateEditMode
+        setTimeout(() => {
+            let inputDateDOM = this.template.querySelectorAll('lightning-input')[1]
+            inputDateDOM.value = this.closeDateToDisplay
+        }, 10)
         this.dispatchCellEditModeEnable(4)
     }
 
@@ -462,6 +489,10 @@ export default class TableContent extends NavigationMixin(LightningElement) {
     }
 
     handleClosedDateChange(event){
+        if(event.target.value == null){
+            this.dateEditMode = false
+            return    
+        }
         this.closeDateToDisplay = event.target.value
         const detail = {
             detail:{

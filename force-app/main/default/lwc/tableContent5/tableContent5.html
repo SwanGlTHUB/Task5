@@ -1,12 +1,12 @@
 <template>
     <td>{rowIndexToDisplay}</td>
-    <td ><lightning-input checked = {rowSelected} onchange={handleRowSelect} type="checkbox"></lightning-input></td>
+    <td ><input class = 'slds-checkbox_faux' checked = {rowSelected} onchange={handleRowSelect} type="checkbox"></input></td>
     <td id='opportunityName-1' onmouseenter = {onMouseOverHandler} onmouseleave = {onMouseOutHandler} onclick = {handleSelectCell} class='slds-cell-edit'>
         <a onclick = {handleRedirectToOpportunityPage}>{opportunityNameToDisplay}</a>
         <lightning-button-icon onclick={handleBtn1Click} id = 'btn1' style = 'float: right; visibility: hidden;' icon-name="utility:edit"  alternative-text="Settings" title="Settings"></lightning-button-icon>
         <template if:true={opportunityEditMode}>
             <div class='opportunity-name-edit'>
-                <lightning-input  class = 'account-name-input inline-block' onchange={handleOpportunityNameInInputChange}></lightning-input>
+                <lightning-input value = {opportunityNameToDisplay} class = 'account-name-input inline-block' onchange={handleOpportunityNameInInputChange}></lightning-input>
                 <lightning-button variant="brand" label="Apply" title="Primary action" onclick={handleOpportunityNameChange} class="slds-m-left_x-small"></lightning-button>
                 <template if:true = {multipleRowEdit}>
                     <div class = 'checkbox-wrapper checkbox-wrapper-opportunity'>
